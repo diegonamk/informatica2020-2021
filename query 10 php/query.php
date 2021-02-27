@@ -33,5 +33,30 @@
     } else {
                 echo "0 results";
     }
+
+    //query2
+    //Codice delle Merci fornite da Fornitore di Xa(citta)
+    //Q2Xa
+    $sql = "SELECT codForn, merce, fornitore FROM fornitore,fornitura WHERE citta='".$_POST['Q2Xa']."' AND fornitore = codForn ";
+    //$sql = "SELECT nome, cognome FROM fornitore WHERE citta='firenze'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo "Codice delle Merci fornite da Fornitore di ".$_POST['Q2Xa'];
+        echo "<br>";
+        echo "------------------------------------------------------------------------";
+        while($row = $result->fetch_assoc()) {  
+            echo "<br>";
+            echo "codice merce:" . $row["merce"];
+        }
+        echo "<br>";
+        echo "------------------------------------------------------------------------";
+        echo "<br>";
+    } else {
+                echo "0 results";
+    }
+
+
+
     $conn->close();
 
