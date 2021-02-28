@@ -30,7 +30,8 @@
         echo "------------------------------------------------------------------------";
         echo "<br>";
     } else {
-                echo "0 results";
+                echo "Q1 0 data or 0 match : 0 result";
+                echo "<br><br>";
     }
 
     //query2
@@ -51,7 +52,8 @@
         echo "------------------------------------------------------------------------";
         echo "<br>";
     } else {
-                echo "0 results";
+                echo "Q2 0 data or 0 match : 0 result";
+                echo "<br><br>";
     }
 
     //query3
@@ -72,7 +74,8 @@
         echo "------------------------------------------------------------------------";
         echo "<br>";
     } else {
-                echo "0 results";
+            echo "Q3 0 data or 0 match : 0 result";
+            echo "<br><br>";
     }
 
     //query4
@@ -96,7 +99,8 @@
         echo "------------------------------------------------------------------------";
         echo "<br>";
     } else {
-                echo "0 results";
+            echo "Q4 0 data or 0 match : 0 result";
+            echo "<br><br>";
     }
 
     //query5
@@ -116,12 +120,15 @@
         echo "------------------------------------------------------------------------";
         echo "<br>";
     } else {
-                echo "0 results";
+            echo "Q5 0 data or 0 match : 0 result";
+            echo "<br><br>";
     }
 
     //query6
     //Nome e Cognome dei Fornitori che forniscono almeno 2 Merci
-    $sql = "SELECT codForn, nome, cognome, fornitore, merce, f1.fornitore, f1.merceFROM fornitore, fornitura, fornitura AS f1 WHERE codForn=(fornitore = (fornitore=f1.fornitore AND merce<>f1.merce))";
+    $sql = "SELECT nome,cognome 
+            FROM fornitore, fornitura AS aF, fornitura AS bF
+            WHERE codForn = (aF.fornitore = bF.fornitore AND aF.merce<>bF.merce)";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -136,8 +143,78 @@
         echo "------------------------------------------------------------------------";
         echo "<br>";
     } else {
-                echo "0 results";
+            echo "Q6 0 data or 0 match : 0 result";
+            echo "<br><br>";
     }
+
+    //query7
+    //Nome e Cognome dei Fornitori che forniscono esattamente 1 Merce
+    $sql = "SELECT nome,cognome
+            FROM fornitore,(
+            SELECT fornitore
+            FROM fornitura
+            EXCEPT
+            SELECT aF.fornitore 
+            FROM fornitura AS aF, fornitura AS bF
+            WHERE aF.fornitore = bF.fornitore AND aF.merce<>bF.merce) AS app
+            WHERE codForn = app.fornitore
+            ";
+            
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo "Q7 Nome e Cognome dei Fornitori che forniscono esattamente 1 Merce";
+        echo "<br>";
+        echo "------------------------------------------------------------------------";
+        while($row = $result->fetch_assoc()) {  
+            echo "<br>";
+            echo "nome:" . $row["nome"]." cognome:" . $row["cognome"];
+        }
+        echo "<br>";
+        echo "------------------------------------------------------------------------";
+        echo "<br>";
+    } else {
+            echo "Q7 0 data or 0 match : 0 result";
+            echo "<br><br>";
+    }
+
+    //query8
+    //Nome e Cognome Fornitori che forniscono solamente Merce di Colore Xa(colore scelto)
+    //Q8Xa
+    $sql = "SELECT nome,cognome
+            FROM fornitore,(
+            SELECT fornitore
+            FROM fornitura
+            EXCEPT
+            SELECT aF.fornitore 
+            FROM fornitura AS aF, fornitura AS bF
+            WHERE aF.fornitore = bF.fornitore AND aF.merce<>bF.merce) AS app
+            WHERE codForn = app.fornitore
+            ";
+            
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo "Q8 Nome e Cognome Fornitori che forniscono solamente Merce di Colore ".$_POST['Q8Xa'];
+        echo "<br>";
+        echo "------------------------------------------------------------------------";
+        while($row = $result->fetch_assoc()) {  
+            echo "<br>";
+            echo "nome:" . $row["nome"]." cognome:" . $row["cognome"];
+        }
+        echo "<br>";
+        echo "------------------------------------------------------------------------";
+        echo "<br>";
+    } else {
+            echo "Q7 0 data or 0 match : 0 result";
+            echo "<br><br>";
+    }
+
+    
+
+
 
 
 
