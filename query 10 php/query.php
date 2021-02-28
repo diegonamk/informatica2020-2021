@@ -183,14 +183,14 @@
     //Nome e Cognome Fornitori che forniscono solamente Merce di Colore Xa(colore scelto)
     //Q8Xa
     $sql = "SELECT nome,cognome
-            FROM fornitore,(
-            SELECT fornitore
-            FROM fornitura
-            EXCEPT
-            SELECT aF.fornitore 
-            FROM fornitura AS aF, fornitura AS bF
-            WHERE aF.fornitore = bF.fornitore AND aF.merce<>bF.merce) AS app
-            WHERE codForn = app.fornitore
+            FROM fornitore, (
+                SELECT fornitore
+                FROM fornitura, (
+                    SELECT codMerce
+                    FROM merce
+                    WHERE colore = '".$_POST['Q8Xa']."') AS colore
+                WHERE merce = colore.codMerce) AS fornitori
+            WHERE codForn = fornitori.fornitore
             ";
             
 
@@ -208,7 +208,7 @@
         echo "------------------------------------------------------------------------";
         echo "<br>";
     } else {
-            echo "Q7 0 data or 0 match : 0 result";
+            echo "Q8 0 data or 0 match : 0 result";
             echo "<br><br>";
     }
 
