@@ -212,6 +212,42 @@
             echo "<br><br>";
     }
 
+    //query9
+    //Fornitori che forniscono Tutte le Merci
+    $sql = "SELECT nome,cognome
+            FROM fornitore,
+            (SELECT fornitore
+            FROM fornitura
+            EXCEPT
+            SELECT f.fornitore
+            FROM (SELECT f.fornitore,m.merce
+            FROM fornitura AS f, fornitura AS m
+            EXCEPT
+            SELECT f.fornitore,merce
+            FROM fornitura AS f) AS f) AS f
+            WHERE codForn = f.fornitore
+    
+            ";
+            
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo "Q9 Fornitori che forniscono Tutte le Merci";
+        echo "<br>";
+        echo "------------------------------------------------------------------------";
+        while($row = $result->fetch_assoc()) {  
+            echo "<br>";
+            echo "nome:" . $row["nome"]." cognome:" . $row["cognome"];
+        }
+        echo "<br>";
+        echo "------------------------------------------------------------------------";
+        echo "<br>";
+    } else {
+            echo "Q9 0 data or 0 match : 0 result";
+            echo "<br><br>";
+    }
+
     
 
 
