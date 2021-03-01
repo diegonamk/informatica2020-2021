@@ -223,7 +223,7 @@
             FROM (SELECT f.fornitore,m.merce
             FROM fornitura AS f, fornitura AS m
             EXCEPT
-            SELECT f.fornitore,merce
+            SELECT f.fornitore,f.merce
             FROM fornitura AS f) AS f) AS f
             WHERE codForn = f.fornitore
     
