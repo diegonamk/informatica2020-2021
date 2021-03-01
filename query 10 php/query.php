@@ -37,7 +37,7 @@
     //query2
     //Codice delle Merci fornite da Fornitore di Xa(citta)
     //Q2Xa
-    $sql = "SELECT codForn, merce, fornitore FROM fornitore,fornitura WHERE citta='".$_POST['Q2Xa']."' AND fornitore = codForn ";
+    $sql = "SELECT merce FROM fornitore,fornitura WHERE citta='".$_POST['Q2Xa']."' AND fornitore = codForn ";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -59,7 +59,7 @@
     //query3
     //Nome Cognome dei Fornitori che forniscono Merce di Colore Xa(colore scelto)
     //Q3Xa
-    $sql = "SELECT nome, cognome, codForn, fornitore, colore, codMerce, merce FROM fornitore,fornitura,merce WHERE colore='".$_POST['Q3Xa']."' AND fornitore = codForn AND merce = codMerce ";
+    $sql = "SELECT nome, cognome FROM fornitore,fornitura,merce WHERE colore='".$_POST['Q3Xa']."' AND fornitore = codForn AND merce = codMerce ";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -82,7 +82,7 @@
     //Nome Cognome dei Fornitoriche che forniscono Merce di Colore Xa(colore scelto 1) oppure di Colore Xb(colore scelto 2)
     //Q4Xa
     //Q4Xb
-    $sql = "SELECT nome, cognome, codForn, fornitore, colore, codMerce, merce 
+    $sql = "SELECT nome, cognome
             FROM fornitore,fornitura,merce 
             WHERE (colore='".$_POST['Q4Xa']."' OR colore='".$_POST['Q4Xb']."') AND fornitore = codForn AND merce = codMerce ";
     $result = $conn->query($sql);
